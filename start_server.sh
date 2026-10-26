@@ -1,0 +1,3 @@
+echo Starting server...
+cd api/v1/
+python3 server.py

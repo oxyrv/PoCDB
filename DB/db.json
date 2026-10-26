@@ -1,0 +1,14 @@
+{
+    "1": {
+        "CVE": "CVE-2025-55184",
+        "type": "DoS",
+        "isRemote": "y",
+        "CVSS": "7.5",
+        "desc": "CVE-2025-55184 is a high-severity Denial of Service (DoS) vulnerability affecting React Server Components (RSC) implementations. The vulnerability allows remote attackers to cause complete service disruption through specially crafted circular reference payloads.\nHere is the list of affected products:\n- Next.js (versions 13.x - 14.1.0)\n- Waku (versions < 0.19.2)\n- Remix (versions < 2.5.1)\n- Any RSC-enabled React app (React 18.0.0 - 18.2.0)\nThis CVE does NOT requires any priviledges.",
+        "code_path": "../../DB/1.txt",
+        "zip_path": "../../DB/1.zip"
+    },
+    "2": {
+        "": ""
+    }
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>PoCDB - The local Proof of Concept database.</title>
+		<style>
+			:root {
+				--cursor-default: url('./CDN/default.png') 10 10, auto;
+				--cursor-pointer: url('./CDN/up_arrow.png') 10 10, auto;
+				--cursor-text: url('./CDN/text.png') 10 10, auto;
+				--cursor-grab: grab;
+				--cursor-disabled: not-allowed;
+			}
+			* {
+				cursor: var(--cursor-default);
+			}
+			a,
+			button,
+			[role="button"],
+			input[type="button"],
+			input[type="submit"],
+			select {
+				cursor: var(--cursor-pointer);
+			}
+			input,
+			textarea,
+			[contenteditable="true"] {
+				cursor: var(--cursor-text);
+			}
+			[draggable="true"] {
+				cursor: var(--cursor-grab);
+			}
+			:disabled,
+			[aria-disabled="true"] {
+				cursor: var(--cursor-disabled);
+			}
+			body {
+				background-color: #060513;
+				color: snow;
+				font-family: 'Arial';
+				overflow-x: hidden;
+			}
+			#main-content {
+				justify-content: center;
+				display: grid;
+				top: 100px;
+				position: relative;
+			}
+			input {
+				color: snow;
+				border: 1px solid gray;
+				border-radius: 15px;
+				width: 400px;
+				height: 40px;
+				background-color: #ffffff4a;
+				transition: 0.3s;
+			}
+			input[type=text] {
+				padding-left: 10px;
+			}
+			button {
+				/*padding: 10px;*/
+				width: 80px;
+				height: 45px;
+				border-radius: 15px;
+				border: 1px solid #9c30cd;
+				background-color: #800080b5;
+				color: snow;
+			}
+			input:focus {
+				outline: none;
+				-webkit-box-shadow:0px 0px 140px 16px rgba(128,0,128,0.68);
+				-moz-box-shadow: 0px 0px 140px 16px rgba(128,0,128,0.68);
+				box-shadow: 0px 0px 140px 16px rgba(128,0,128,0.68);
+				transition: 0.5s;
+			}
+			input:hover {
+				/*-webkit-box-shadow:0px 0px 60px 45px rgba(128,0,128,0.24);
+				-moz-box-shadow: 0px 0px 60px 45px rgba(128,0,128,0.24);
+				box-shadow: 0px 0px 60px 45px rgba(128,0,128,0.24);
+				transition: 0.3s;*/
+			}
+			.icon {
+				padding: 10px;
+				background-color: #ffffff4a;
+				border: 1px solid gray;
+				border-radius: 10px;
+				user-select: none;
+				/*-webkit-box-shadow:0px 0px 140px 51px rgba(78,77,87,0.69);
+				-moz-box-shadow: 0px 0px 140px 51px rgba(78,77,87,0.69);
+				box-shadow: 0px 0px 140px 51px rgba(78,77,87,0.69);*/
+			}
+			#progressContainer {
+				width: 60%;
+				background-color: #cccccc;
+				border-radius: 5px;
+				overflow: hidden;
+				position: relative;
+			}
+			#progressBar {
+				width: 10%;
+				height: 20px;
+				background-color: #4caf50;
+			}
+			.card {
+				border-radius: 5px;
+				border: 1px solid;
+				border-color: gray;
+				width: 320px;
+				height: 220px;
+				padding: 5px;
+				-webkit-box-shadow:0px 0px 38px 19px rgba(76,75,81,0.49);
+				-moz-box-shadow: 0px 0px 38px 19px rgba(76,75,81,0.49);
+				box-shadow: 0px 0px 38px 19px rgba(76,75,81,0.49);
+			}
+			.pulse {
+				width: 12.4px;
+				height: 12.4px;
+				border-radius: 50%;
+				background: #474bff;
+				box-shadow: 0 0 0 0 rgba(71,75,255,0.5);
+				animation: pulse-c6zlskmd 1s infinite;
+			}
+
+			@keyframes pulse-c6zlskmd {
+				100% {
+					box-shadow: 0 0 0 33.6px #0000;
+				}
+			}
+
+			code {
+				background-color: #a9a9a94a;
+				padding: 15px;
+				color: snow;
+				border: 2px solid grey;
+				border-radius: 10px;
+				width: 700px;
+				height: 100%;
+				display: block;
+			}
+
+			[data-copy^='pre'] {
+				&:disabled {
+					display: none;
+				}
+			}
+
+			.dots {
+				width: 56px;
+				height: 13.4px;
+				background: radial-gradient(circle closest-side,#474bff 90%,#0000) 0%   50%,
+				radial-gradient(circle closest-side,#474bff 90%,#0000) 50%  50%,
+				radial-gradient(circle closest-side,#474bff 90%,#0000) 100% 50%;
+				background-size: calc(100%/3) 100%;
+				background-repeat: no-repeat;
+				animation: dots-zcf63l 1s infinite linear;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-3000%);
+			}
+			@keyframes dots-zcf63l {
+				33% {
+					background-size: calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%;
+				}
+				50% {
+					background-size: calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%;
+				}
+				66% {
+					background-size: calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%;
+				}
+			}
+			#desc {
+				/*text-align: center;*/
+				width: 720px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>PoCDB</h1>
+		<div id="main-content">
+			<div style="display: inline-flex !important; justify-content: center;">
+				<input type="text" placeholder="CVE-1234-56..." id="searchbar" />
+				<span>    </span>
+				<button onclick="search();">Search</button>
+			</div>
+			<!--<span> </span>
+			<span> </span>
+			<span> </span>-->
+			<!--<div class="dots"></div>-->
+			<div id="poc" style="padding-top: 50px;">
+				<!-- There will be the PoC and vuln details -->
+				<div id="cve" style="display: inline-flex; justify-content: center;">
+					<div class="card">
+						<br><p>  <a class="icon">🛡️</a>  CVSS Score :</p><br>
+						<a id="score" style="place-items: center; display: grid;">0.0 | None</a><!--<div id="cvss">-->
+						<div style="place-items: center;display: grid;">
+							<div id="progressContainer" style="background-color: #cccccc; height: 20px;" >
+								<div id="progressBar" style="width: 0%; height: 20px; background-color: none; /* low = #26a269 | critical = #a51d2d | high = #c64600 | medium = #e5a50a */ transition: 1s;">
+								</div>
+							</div>
+						</div>
+					</div>
+					<span>              </span>
+					<div class="card">
+						<p style="font-size: 6px"> </p>
+						<p>  <a class="icon">💡</a><a id="cve-name"> CVE-0000-0000</a></p><br>
+						<p>  <a class="icon">⚙️</a><a id="type"> Type</a></p><br>
+						<p>  <a class="icon">🌐</a><a id="ir"> Is remote?</a></p><br>
+					</div>
+				</div><br><br><br>
+				<p>  <a class="icon">ℹ️</a> Description :</p><br>
+				<p id="desc">None</p><br>
+				<button><a id="dlbtn" href="" target="_blank" style="color: snow; text-decoration: none;">Download</a></button>
+				<pre><code id="code">...</code></pre>
+			</div>
+		</div>
+		<script src="scripts.js"></script>
+	</body>
+</html>
